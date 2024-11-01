@@ -26,10 +26,10 @@ spec:
                       paths:
                         - path: /
                           pathType: Prefix
-                tls:
-                    hosts:
-                        - homeassistant.${BASE_DOMAIN}
-                    secretName: homeassistant-tls
+#                tls:
+#                    hosts:
+#                        - homeassistant.${BASE_DOMAIN}
+#                    secretName: homeassistant-tls
                 integrations:
                     traefik:
                         enabled: true
@@ -38,12 +38,9 @@ spec:
                               namespace: traefik
                             - name: bouncer
                               namespace: traefik
-                        allowCors: false
-                        entrypoints:
-                            - websecure
                     certManager:
-                        certificateIssuer: wildcard
                         enabled: true
+                        certificateIssuer: cert
                     homepage:
                         enabled: false
         release_name: homeassistant

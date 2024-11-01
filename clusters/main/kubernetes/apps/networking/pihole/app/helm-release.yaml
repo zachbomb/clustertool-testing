@@ -29,12 +29,9 @@ spec:
                               namespace: traefik
                             - name: bouncer
                               namespace: traefik
-                        allowCors: false
-                        entrypoints:
-                            - websecure
                     certManager:
-                        certificateIssuer: wildcard
                         enabled: true
+                        certificateIssuer: cert
                     homepage:
                         enabled: false
                 hosts:
@@ -42,10 +39,10 @@ spec:
                       paths:
                         - path: /
                           pathType: Prefix
-                tls:
-                    hosts:
-                        - pihole.${BASE_DOMAIN}
-                    secretName: pihole-tls
+#                tls:
+#                    hosts:
+#                        - pihole.${BASE_DOMAIN}
+#                    secretName: pihole-tls
         release_name: pihole
         service:
             main:

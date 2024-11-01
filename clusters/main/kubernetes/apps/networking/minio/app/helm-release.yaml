@@ -26,10 +26,10 @@ spec:
                       paths:
                         - path: /
                           pathType: Prefix
-                tls:
-                    hosts:
-                        - minio.${BASE_DOMAIN}
-                    secretName: minio-tls
+#                tls:
+#                    hosts:
+#                        - minio.${BASE_DOMAIN}
+#                    secretName: minio-tls
                 integrations:
                     traefik:
                         enabled: true
@@ -38,12 +38,9 @@ spec:
                               namespace: traefik
                             - name: bouncer
                               namespace: traefik
-                        allowCors: false
-                        entrypoints:
-                            - websecure
                     certManager:
-                        certificateIssuer: wildcard
                         enabled: true
+                        certificateIssuer: cert
                     homepage:
                         enabled: false
         release_name: external-service

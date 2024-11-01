@@ -39,9 +39,6 @@ spec:
                               namespace: traefik
                             - name: bouncer
                               namespace: traefik
-                        allowCors: false
-                        entrypoints:
-                            - websecure
                     certManager:
                         certificateIssuer: cert
                         enabled: true

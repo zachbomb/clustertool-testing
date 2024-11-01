@@ -29,12 +29,9 @@ spec:
                               namespace: traefik
                             - name: bouncer
                               namespace: traefik
-                        allowCors: false
-                        entrypoints:
-                            - websecure
                     certManager:
-                        certificateIssuer: wildcard
                         enabled: true
+                        certificateIssuer: wildcard
                     homepage:
                         enabled: false
                 hosts:
@@ -42,10 +39,10 @@ spec:
                       paths:
                         - path: /
                           pathType: Prefix
-                tls:
-                    hosts:
-                        - radarr.${BASE_DOMAIN}
-                    secretName: radarr-tls
+#                tls:
+#                    hosts:
+#                        - radarr.${BASE_DOMAIN}
+#                    secretName: radarr-tls
         release_name: truenas
         service:
             main:

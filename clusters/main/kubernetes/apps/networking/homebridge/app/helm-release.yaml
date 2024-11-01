@@ -24,10 +24,10 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-        tls:
-          hosts:
-            - homebridge.${BASE_DOMAIN}
-          secretName: homebridge-tls
+#        tls:
+#          hosts:
+#            - homebridge.${BASE_DOMAIN}
+#          secretName: homebridge-tls
         integrations:
           traefik:
             enabled: true
@@ -36,12 +36,9 @@ spec:
                 namespace: traefik
               - name: bouncer
                 namespace: traefik
-            allowCors: false
-            entrypoints:
-              - websecure
           certManager:
-            certificateIssuer: wildcard
             enabled: true
+            certificateIssuer: cert
           homepage:
             enabled: false
     release_name: homebridge
