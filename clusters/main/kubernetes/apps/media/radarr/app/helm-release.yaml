@@ -85,11 +85,8 @@ spec:
                               namespace: traefik
                             - name: bouncer
                               namespace: traefik
-                        allowCors: false
-                        entrypoints:
-                            - websecure
                     certManager:
-                        certificateIssuer: wildcard
+                        certificateIssuer: cert
                         enabled: true
                     homepage:
                         description: Movie Downloader/Manager
