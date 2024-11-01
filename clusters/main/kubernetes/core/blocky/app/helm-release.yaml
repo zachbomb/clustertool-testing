@@ -1,0 +1,149 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: blocky
+  namespace: blocky
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: blocky
+      version: 16.6.2
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    credentials:
+      s3:
+        type: s3
+        url: "${S3URL}"
+        bucket: "${S3PREFIX}-blocky"
+        accessKey: "${S3ID}"
+        secretKey: "${S3KEY}"
+        encrKey: "${S3KEY}"
+    service:
+      dns:
+        externalTrafficPolicy: Local
+        loadBalancerIP: ${BLOCKY_IP}
+        type: LoadBalancer
+    bootstrapDns:
+      upstream: 192.168.10.3
+    caching:
+      cacheTimeNegative: 30m
+      maxItemsCount: 0
+      maxTime: 30m
+      minTime: 5m
+      prefetchExpires: 2h
+      prefetchMaxItemsCount: 0
+      prefetchThreshold: 5
+      prefetching: false
+    blocking:
+      whitelist: []
+      blacklist: []
+      clientGroupsBlock:
+        - name: default
+          groups:
+            - default
+    k8sgateway:
+      domains:
+        - domain: "wethecommon.com"
+          dnsChallenge:
+            enabled: false
+            domain: dns01.clouddns.com
+      forward:
+        enabled: false
+        primary: tls://1.1.1.1
+        secondary: tls://1.0.0.1
+        options:
+          - name: tls_servername
+            value: cloudflare-dns.com
+      ttl: 300
+    queryLog:
+      type: ""
+    configmap:
+      dashboard:
+        data:
+          blocky.json: '{{ .Files.Get "dashboard.json" | indent 8 }}'
+          blockypostgres.json: '{{ .Files.Get "dashboardpsql.json" | indent 8 }}'
+          enabled: true
+          labels:
+            grafana_dashboard: "1"
+        datasource:
+          data:
+            datasourceblockypsql.yaml: |-
+              apiVersion: 1
+              datasources:
+                - name: BlockyPostgres
+                  type: postgres
+                  uid: blockypostgres
+                  url: {{ printf "%s.%s:5432" (.Values.cnpg.main.creds.host | trimAll "\"") .Release.Namespace }}
+                  access: proxy
+                  user: {{ .Values.cnpg.main.user }}
+                  secureJsonData:
+                    password: {{ .Values.cnpg.main.creds.password | default "na" }}
+                  jsonData:
+                    database: {{ .Values.cnpg.main.database }}
+                    sslmode: 'disable'
+                    maxOpenConns: 100
+                    maxIdleConns: 100
+                    maxIdleConnsAuto: true
+                    connMaxLifetime: 14400
+                    postgresVersion: 1500
+                    timescaledb: false
+            enabled: false
+            labels:
+              grafana_datasources: "1"
+      customDNS:
+        enabled: true
+        customTTL: 1h
+        filterUnmappedTypes: true
+      defaultUpstreams:
+        - tcp-tls:1.1.1.1:853
+        - tcp-tls:1.0.0.1:853
+      dohUserAgent: ""
+      hostsFile:
+        enabled: false
+        filePath: /etc/hosts
+        hostsTTL: 60m
+        refreshPeriod: 30m
+      ingress:
+        main:
+          enabled: false
+    cnpg:
+      main:
+        backups:
+          enabled: false
+          revision: ""
+        cluster:
+          instances: 1
+          singleNode: true
+        database: blocky
+        enabled: true
+        hibernate: false
+        mode: standalone
+        monitoring:
+          disableDefaultQueries: false
+          enablePodMonitor: true
+        password: PLACEHOLDERPASSWORD
+        pgVersion: 16
+        pooler:
+          enabled: false
+        recovery:
+          enabled: false
+          revision: ""
+          serverName: ""
+        user: blocky

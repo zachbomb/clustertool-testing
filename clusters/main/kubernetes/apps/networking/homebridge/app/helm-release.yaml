@@ -1,0 +1,61 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: homebridge
+  namespace: networking
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: external-service
+      version: 15.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+  releaseName: homebridge
+  values:
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "" # Specify if needed, else remove
+        hosts:
+          - host: homebridge.${BASE_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          hosts:
+            - homebridge.${BASE_DOMAIN}
+          secretName: homebridge-tls
+        integrations:
+          traefik:
+            enabled: true
+            middlewares:
+              - name: local
+                namespace: traefik
+              - name: bouncer
+                namespace: traefik
+            allowCors: false
+            entrypoints:
+              - websecure
+          certManager:
+            certificateIssuer: wildcard
+            enabled: true
+          homepage:
+            enabled: false
+    release_name: homebridge
+    service:
+      main:
+        enabled: true
+        externalIP: 192.168.10.192
+        ports:
+          main:
+            enabled: true
+            port: 8581
+            protocol: http
+        type: ExternalIP
+        useSlice: false
+    workload:
+      main:
+        enabled: false # Change to true if you want to deploy a workload

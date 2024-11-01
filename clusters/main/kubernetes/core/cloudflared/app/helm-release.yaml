@@ -1,0 +1,62 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.zinn.ca/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+    name: cloudflared
+    namespace: cloudflared
+spec:
+    interval: 15m
+    chart:
+        spec:
+            chart: cloudflared
+            version: 12.6.2
+            sourceRef:
+                kind: HelmRepository
+                name: truecharts
+                namespace: flux-system
+    releaseName: cloudflared
+    values:
+        TZ: America/Los_Angeles
+        addons:
+            codeserver:
+                enabled: false
+            netshoot:
+                enabled: false
+            vpn:
+                type: disabled
+        release_name: cloudflared
+        resources: {}
+        securityContext:
+            container:
+                UMASK: "0022"
+                runAsGroup: 1000
+                runAsUser: 1000
+            pod:
+                fsGroupChangePolicy: OnRootMismatch
+        service:
+            main:
+                enabled: false
+                ports:
+                    main:
+                        enabled: false
+        workload:
+            main:
+                podSpec:
+                    containers:
+                        main:
+                            args:
+                                - tunnel
+                                - --no-autoupdate
+                                - run
+                            env:
+                                TUNNEL_TOKEN: eyJhIjoiNWNmYzY1OTg3Y2Y4MTNkMDMzYWE2MjE4OWMyYjliNjYiLCJ0IjoiZWRhZGMzMmYtNTBkOC00NWMzLThhOWUtMzc1ZmNlZjhkY2EzIiwicyI6IllUVmlNelJoWm1ZdE5ETmlNUzAwTlRjMUxUazBNemt0TUROak9ETXhPVEEyWldZNCJ9
+                            probes:
+                                liveness:
+                                    enabled: false
+                                readiness:
+                                    enabled: false
+                                startup:
+                                    enabled: false
+                replicas: 1
+                type: Deployment

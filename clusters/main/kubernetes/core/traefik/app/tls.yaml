@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik-ingress
+  namespace: traefik
+spec:
+  replicas: 1
+  containers: 
+    - name: traefik
+      args:
+        - "--providers.kubernetescrd"
+        - "--providers.file.filename=/config/dynamic.toml"
+      volumeMounts:
+        - name: certs
+         mountPath: "/certs"
+          readOnly: true
+        - name: dynamic
+          mountPath: "/config"
+          readOnly: true
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dynamic
+  namespace: traefik
+data:
+  dynamic.toml: |
+    # Dynamic configuration
+    [[tls.certificates]]
+    certFile = "/certs/tls.crt"
+    keyFile = "/certs/tls.key"

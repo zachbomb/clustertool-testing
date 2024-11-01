@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard
+  namespace: clusterissuer
+spec:
+  secretName: wildcard-tls
+  issuerRef:
+    name: cert
+    kind: ClusterIssuer
+  dnsNames:
+    - wethecommon.com
+    - '*.wethecommon.com'
