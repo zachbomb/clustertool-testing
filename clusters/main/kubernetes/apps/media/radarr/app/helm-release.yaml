@@ -86,8 +86,8 @@ spec:
                             - name: bouncer
                               namespace: traefik
                     certManager:
-                        certificateIssuer: cert
                         enabled: true
+                        certificateIssuer: cert
                     homepage:
                         description: Movie Downloader/Manager
                         enabled: true
