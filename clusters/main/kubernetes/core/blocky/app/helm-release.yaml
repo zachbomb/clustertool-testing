@@ -1,3 +1,4 @@
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -13,7 +14,6 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
   timeout: 20m
   maxHistory: 3
   install:
@@ -35,22 +35,68 @@ spec:
         accessKey: "${S3ID}"
         secretKey: "${S3KEY}"
         encrKey: "${S3KEY}"
+    securityContext:
+      container:
+        UMASK: "0022"
+        runAsGroup: 568
+        runAsUser: 568
+      pod:
+        fsGroupChangePolicy: OnRootMismatch
     service:
       dns:
+        enabled: true
         externalTrafficPolicy: Local
         loadBalancerIP: ${BLOCKY_IP}
+        ports:
+          dns:
+            enabled: true
+            port: 53
+            protocol: udp
+            targetPort: 53
+          dnstcp:
+            enabled: true
+            port: '{{ .Values.service.dns.ports.dns.port }}'
+            protocol: tcp
+            targetPort: 53
         type: LoadBalancer
+      dot:
+        enabled: true
+        ports:
+          dot:
+            enabled: true
+            port: 853
+            protocol: tcp
+            targetPort: 853
+        type: ClusterIP
+      https:
+        enabled: true
+        ports:
+          https:
+            enabled: true
+            port: 4443
+            protocol: https
+            targetPort: 4443
+        type: ClusterIP
+      k8sgateway:
+        enabled: true
+        ports:
+          k8sgateway:
+            enabled: true
+            port: 5353
+            protocol: udp
+            targetPort: 5353
+        type: ClusterIP
+      main:
+        enabled: true
+        ports:
+          main:
+            enabled: true
+            port: 4000
+            protocol: http
+            targetPort: 4000
+        type: ClusterIP
     bootstrapDns:
       upstream: 192.168.10.3
-    caching:
-      cacheTimeNegative: 30m
-      maxItemsCount: 0
-      maxTime: 30m
-      minTime: 5m
-      prefetchExpires: 2h
-      prefetchMaxItemsCount: 0
-      prefetchThreshold: 5
-      prefetching: false
     blocking:
       whitelist: []
       blacklist: []
@@ -60,10 +106,11 @@ spec:
             - default
     k8sgateway:
       domains:
-        - domain: "wethecommon.com"
-          dnsChallenge:
-            enabled: false
-            domain: dns01.clouddns.com
+      - domain: sf.wethecommon.com
+        enabled: true
+        dnsChallenge:
+          enabled: false
+          domain: dns01.clouddns.com
       forward:
         enabled: false
         primary: tls://1.1.1.1
@@ -76,63 +123,19 @@ spec:
       type: ""
     configmap:
       dashboard:
-        data:
-          blocky.json: '{{ .Files.Get "dashboard.json" | indent 8 }}'
-          blockypostgres.json: '{{ .Files.Get "dashboardpsql.json" | indent 8 }}'
-          enabled: true
-          labels:
-            grafana_dashboard: "1"
-        datasource:
-          data:
-            datasourceblockypsql.yaml: |-
-              apiVersion: 1
-              datasources:
-                - name: BlockyPostgres
-                  type: postgres
-                  uid: blockypostgres
-                  url: {{ printf "%s.%s:5432" (.Values.cnpg.main.creds.host | trimAll "\"") .Release.Namespace }}
-                  access: proxy
-                  user: {{ .Values.cnpg.main.user }}
-                  secureJsonData:
-                    password: {{ .Values.cnpg.main.creds.password | default "na" }}
-                  jsonData:
-                    database: {{ .Values.cnpg.main.database }}
-                    sslmode: 'disable'
-                    maxOpenConns: 100
-                    maxIdleConns: 100
-                    maxIdleConnsAuto: true
-                    connMaxLifetime: 14400
-                    postgresVersion: 1500
-                    timescaledb: false
-            enabled: false
-            labels:
-              grafana_datasources: "1"
-      customDNS:
-        enabled: true
-        customTTL: 1h
-        filterUnmappedTypes: true
-      defaultUpstreams:
-        - tcp-tls:1.1.1.1:853
-        - tcp-tls:1.0.0.1:853
-      dohUserAgent: ""
-      hostsFile:
         enabled: false
-        filePath: /etc/hosts
-        hostsTTL: 60m
-        refreshPeriod: 30m
-      ingress:
-        main:
-          enabled: false
+      datasource:
+        enabled: false
     cnpg:
       main:
-        backups:
-          enabled: false
-          revision: ""
+        enabled: false
         cluster:
           instances: 1
           singleNode: true
+        backups:
+          enabled: false
+          revision: ""
         database: blocky
-        enabled: true
         hibernate: false
         mode: standalone
         monitoring:
