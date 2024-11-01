@@ -40,8 +40,8 @@ spec:
                             - name: bouncer
                               namespace: traefik
                     certManager:
-                        certificateIssuer: cert
                         enabled: true
+                        certificateIssuer: cert
                     homepage:
                         enabled: false
         release_name: roon
