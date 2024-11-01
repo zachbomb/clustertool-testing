@@ -5,4 +5,4 @@ resources:
 #  - clusterrole.yaml
   - clusterrole-binding.yaml
   - helm-release.yaml
-#  - tls.yaml
+  - tls.yaml

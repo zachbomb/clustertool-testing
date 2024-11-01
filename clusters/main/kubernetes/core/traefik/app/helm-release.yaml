@@ -69,7 +69,7 @@ spec:
         runAsUser: 568
       pod:
         fsGroupChangePolicy: OnRootMismatch
-    defaultCertificate: wildcard
+    defaultCertificate: ""
     service:
       main:
         enabled: true
@@ -133,9 +133,6 @@ spec:
                 namespace: traefik
               - name: bouncer
                 namespace: traefik
-            allowCors: false
-            entrypoints:
-              - websecure
           certManager:
             enabled: true
             certificateIssuer: cert
@@ -152,6 +149,7 @@ spec:
             - 172.17.0.0/16
             - 192.168.10.0/24
             - 192.168.20.0/24
+            - 192.168.30.0/24
       bouncer:
         - name: bouncer
           enabled: true
@@ -166,6 +164,7 @@ spec:
             - 172.17.0.0/16
             - 192.168.10.0/24
             - 192.168.20.0/24
+            - 192.168.30.0/24
           crowdsecLapiTLSCertificateAuthorityFile: /etc/traefik/crowdsec-certs/ca.crt
           crowdsecLapiTLSCertificateBouncerFile: /etc/traefik/crowdsec-certs/tls.crt
           crowdsecLapiTLSCertificateBouncerKeyFile: /etc/traefik/crowdsec-certs/tls.key

@@ -1,3 +1,4 @@
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -13,6 +14,7 @@ spec:
         kind: HelmRepository
         name: crowdsec
         namespace: flux-system
+      interval: 15m
   timeout: 20m
   maxHistory: 3
   install:
@@ -57,6 +59,10 @@ spec:
             - ALL
         seccompProfile:
           type: RuntimeDefault
+    service:
+      main:
+        enabled: true
+        loadBalancerIP: ${BLOCKY_IP}
     lapi:
       dashboard:
         enabled: false
@@ -71,7 +77,6 @@ spec:
             traefik.ingress.kubernetes.io/router.tls: 'true'
             traefik.ingress.kubernetes.io/router.middlewares: traefik-chain-basic@kubernetescrd,traefik-bouncer@kubernetescrd,traefik-local@kubernetescrd
           host: crowdsec.${BASE_DOMAIN}
-      env: {}
       metrics:
         enabled: true
         serviceMonitor:
