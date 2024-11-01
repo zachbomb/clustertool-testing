@@ -22,10 +22,10 @@ spec:
             name: webhook-receiver
             port:
               number: 80
-  tls:
-    - hosts:
-      - flux-webhook.${BASE_DOMAIN}
-      secretName: flux-webhook-tls-0
+#  tls:
+#    - hosts:
+#      - flux-webhook.${BASE_DOMAIN}
+#      secretName: flux-webhook-tls-0
 status:
     loadBalancer:
       ingress:
