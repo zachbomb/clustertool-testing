@@ -47,4 +47,4 @@ spec:
           certificateIssuer: cert
           hosts:
             - wethecommon.com
-            - '*.wethecommon.com'
+            - *.wethecommon.com
