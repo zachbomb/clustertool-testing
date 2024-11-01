@@ -138,7 +138,7 @@ spec:
               - websecure
           certManager:
             enabled: true
-            certificateIssuer: wildcard
+            certificateIssuer: cert
         hosts:
           - host: traefik.${BASE_DOMAIN}
             paths:
