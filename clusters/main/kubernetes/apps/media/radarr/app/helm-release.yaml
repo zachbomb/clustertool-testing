@@ -65,7 +65,18 @@ spec:
 
         ingress:
             main:
+                annotations:
+                    traefik.frontend.passHostHeader: "false"
                 enabled: true
+                hosts:
+                    - host: radarr.${BASE_DOMAIN}
+                      paths:
+                        - path: /
+                          pathType: Prefix
+#                tls:
+#                    hosts:
+#                        - radarr.${BASE_DOMAIN}
+#                        secretName: radarr-tls
                 integrations:
                     traefik:
                         enabled: true
@@ -90,15 +101,6 @@ spec:
                             custom:
                                 key: a1cfd28c2bab49a1b9f6a1ac0c106e45
                             enabled: true
-                hosts:
-                    - host: radarr.${BASE_DOMAIN}
-                      paths:
-                        - path: /
-                          pathType: Prefix
-                tls:
-                    hosts:
-                        - radarr.${BASE_DOMAIN}
-                        secretName: radarr-tls
         persistence:
             config:
                 enabled: true

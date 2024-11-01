@@ -4,6 +4,6 @@ resources:
   - namespace.yaml
   - downloads-nfs-pvc.yaml
   - media-nfs-pvc.yaml
-#  - roon/ks.yaml
-#  - prowlarr/ks.yaml
-#  - radarr/ks.yaml
+  - roon/ks.yaml
+  - prowlarr/ks.yaml
+  - radarr/ks.yaml
