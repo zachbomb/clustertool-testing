@@ -19,8 +19,9 @@ spec:
     values:
         ingress:
             main:
+                annotations:
+                    traefik.frontend.passHostHeader: "false"
                 enabled: true
-                ingressClassName: ""
                 integrations:
                     traefik:
                         enabled: true

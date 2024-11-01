@@ -19,8 +19,9 @@ spec:
     values:
         ingress:
             main:
+                annotations:
+                    traefik.frontend.passHostHeader: "false"
                 enabled: true
-                ingressClassName: ""
                 hosts:
                     - host: homeassistant.${BASE_DOMAIN}
                       paths:

@@ -17,8 +17,9 @@ spec:
   values:
     ingress:
       main:
+        annotations:
+            traefik.frontend.passHostHeader: "false"
         enabled: true
-        ingressClassName: "" # Specify if needed, else remove
         hosts:
           - host: homebridge.${BASE_DOMAIN}
             paths:
