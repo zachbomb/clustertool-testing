@@ -1,18 +1,11 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: traefik-ingress
   namespace: traefik
-selector:
-    matchLabels:
-      app: traefik
-  template:
-    metadata:
-      labels:
-        app: traefik
-    spec:
-      containers:
+
+spec:
+    containers:
         - name: traefik
           args:
             - "--providers.kubernetescrd"
