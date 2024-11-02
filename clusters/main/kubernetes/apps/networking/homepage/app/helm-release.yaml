@@ -86,31 +86,31 @@ spec:
                           openweathermap: openweathermapapikey
                           weatherapi: weatherapiapikey
                     widgets.yaml: |
-                    ---
-                    # For configuration options and examples, please see:
-                    # https://gethomepage.dev/latest/configs/widgets
+                        ---
+                        # For configuration options and examples, please see:
+                        # https://gethomepage.dev/latest/configs/widgets
 
-                    - unifi_console:
-                    url: https://192.168.10.1:443
-                    username: homepage
-                    password: CNuGGQLz6Pth
+                     - unifi_console:
+                        url: https://192.168.10.1:443
+                        username: homepage
+                        password: CNuGGQLz6Pth
 
-                    - resources:
-                      cpu: true
-                      memory: true
-                      disk: /
+                        - resources:
+                          cpu: true
+                       memory: true
+                          disk: /
 
-                    - search:
-                       provider: duckduckgo
-                        target: _blank
+                        - search:
+                           provider: duckduckgo
+                            target: _blank
 
-                    - datetime:
-                    text_size: xl
-                    # 1/23/22, 1:37 PM
-                       format:
-                      dateStyle: short
-                      timeStyle: short
-                      hour12: true
+                        - datetime:
+                        text_size: xl
+                        # 1/23/22, 1:37 PM
+                           format:
+                          dateStyle: short
+                          timeStyle: short
+                          hour12: true
                 enabled: true
         forceConfigFromValues: false
         ingress:
