@@ -63,6 +63,10 @@ spec:
                       paths:
                         - path: /
                           pathType: Prefix
+#                tls:
+#                    hosts:
+#                        - radarr.${BASE_DOMAIN}
+#                   secretName: radarr-tls
                 integrations:
                     traefik:
                         enabled: true
@@ -76,7 +80,7 @@ spec:
                         certificateIssuer: cert
                     homepage:
                         description: Movie Downloader/Manager
-                        enabled: true
+                        enabled: false
                         group: Content Management
                         icon: ""
                         name: Radarr
@@ -84,11 +88,14 @@ spec:
                             custom:
                                 key: a1cfd28c2bab49a1b9f6a1ac0c106e45
                             enabled: true
-#                tls:
-#                    hosts:
-#                        - radarr.${BASE_DOMAIN}
-#                    secretName: radarr-tls
-
+        service:
+            main:
+                enabled: true
+                type: LoadBalancer
+                loadBalancerIP: ${TRAEFIK_IP}
+                ports:
+                    main:
+                        port: 7878
 
         persistence:
             config:

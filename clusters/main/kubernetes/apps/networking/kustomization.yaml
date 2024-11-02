@@ -8,3 +8,4 @@ resources:
   - proxmox/ks.yaml
   - truenas/ks.yaml
   - minio/ks.yaml
+  - homepage/ks.yaml
