@@ -18,18 +18,12 @@ spec:
     values:
         ingress:
             main:
-                annotations:
-                    traefik.frontend.passHostHeader: "false"
                 enabled: true   
                 hosts:
                     - host: prowlarr.${BASE_DOMAIN}
                       paths:
                         - path: /
                           pathType: Prefix
-#                tls:
-#                    hosts:
-#                        - prowlarr.${BASE_DOMAIN}
-#                    secretName: prowlarr-tls             
                 integrations:
                     traefik:
                         enabled: true
@@ -41,6 +35,10 @@ spec:
                     certManager:
                         enabled: true
                         certificateIssuer: cert
+ #               tls:
+ #                   hosts:
+ #                       - host: prowlarr.${BASE_DOMAIN}
+ #                     secretName: prowlarr-tls
         release_name: prowlarr
         service:
             main:
