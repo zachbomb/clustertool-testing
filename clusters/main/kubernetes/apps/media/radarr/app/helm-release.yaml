@@ -58,10 +58,12 @@ spec:
                 annotations:
                     traefik.frontend.passHostHeader: "false"
                 enabled: true
+                hosts:
+                    - host: radarr.${BASE_DOMAIN}
+                      paths:
+                        - path: /
+                          pathType: Prefix
                 integrations:
-                    certManager:
-                        enabled: true
-                        certificateIssuer: cert
                     traefik:
                         enabled: true
                         middlewares:
@@ -69,8 +71,9 @@ spec:
                               namespace: traefik
                             - name: bouncer
                               namespace: traefik
-                        entrypoints:
-                            - websecure
+                    certManager:
+                        enabled: true
+                        certificateIssuer: cert
                     homepage:
                         description: Movie Downloader/Manager
                         enabled: true
@@ -81,11 +84,6 @@ spec:
                             custom:
                                 key: a1cfd28c2bab49a1b9f6a1ac0c106e45
                             enabled: true
-                hosts:
-                    - host: radarr.${BASE_DOMAIN}
-                      paths:
-                        - path: /
-                          pathType: Prefix
 #                tls:
 #                    hosts:
 #                        - radarr.${BASE_DOMAIN}
