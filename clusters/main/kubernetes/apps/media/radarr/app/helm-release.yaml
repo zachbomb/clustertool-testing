@@ -64,10 +64,10 @@ spec:
                       paths:
                         - path: /
                           pathType: Prefix
-#                tls:
-#                    hosts:
-#                        - radarr.${BASE_DOMAIN}
-#                        secretName: radarr-tls 
+                tls:
+                    hosts:
+                        - radarr.${BASE_DOMAIN}
+                        secretName: radarr-tls 
                 integrations:
                     traefik:
                         enabled: true
