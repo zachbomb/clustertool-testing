@@ -32,7 +32,7 @@ spec:
                               namespace: traefik
                     certManager:
                         enabled: true
-                        certificateIssuer: wildcard
+                        certificateIssuer: cert
                     homepage:
                         enabled: false
                 hosts:
@@ -42,8 +42,8 @@ spec:
                           pathType: Prefix
 #                tls:
 #                    hosts:
-#                        - radarr.${BASE_DOMAIN}
-#                    secretName: radarr-tls
+#                        - truenas.${BASE_DOMAIN}
+#                    secretName: truenas-tls
         release_name: truenas
         service:
             main:
