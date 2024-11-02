@@ -22,6 +22,15 @@ spec:
                 annotations:
                     traefik.frontend.passHostHeader: "false"
                 enabled: true
+                hosts:
+                    - host: truenas.${BASE_DOMAIN}
+                      paths:
+                        - path: /
+                          pathType: Prefix
+#                tls:
+#                    hosts:
+#                        - truenas.${BASE_DOMAIN}
+#                    secretName: truenas-tls
                 integrations:
                     traefik:
                         enabled: true
@@ -35,15 +44,6 @@ spec:
                         certificateIssuer: cert
                     homepage:
                         enabled: false
-                hosts:
-                    - host: truenas.${BASE_DOMAIN}
-                      paths:
-                        - path: /
-                          pathType: Prefix
-#                tls:
-#                    hosts:
-#                        - truenas.${BASE_DOMAIN}
-#                    secretName: truenas-tls
         release_name: truenas
         service:
             main:
