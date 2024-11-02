@@ -56,7 +56,7 @@ spec:
             main:
                 enabled: true
                 type: LoadBalancer
-                loadBalancerIP: ${RADARR_IP}
+                loadBalancerIP: ${TRAEFIK_IP}
                 ports:
                     main:
                         port: 7878
