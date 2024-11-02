@@ -47,15 +47,6 @@ spec:
             pod:
                 fsGroup: 1000
                 fsGroupChangePolicy: OnRootMismatch
-        service:
-            main:
-                enabled: true
-                loadBalancerIP: ${RADARR_IP}
-                ports:
-                    main:
-                        port: 7878
-                type: LoadBalancer
-                updated: true
         metrics:
             main:
                enabled: false
@@ -98,6 +89,15 @@ spec:
                             custom:
                                 key: a1cfd28c2bab49a1b9f6a1ac0c106e45
                             enabled: true
+        service:
+            main:
+                enabled: true
+                loadBalancerIP: ${RADARR_IP}
+                ports:
+                    main:
+                        port: 7878
+                type: LoadBalancer
+                updated: true
         persistence:
             config:
                 enabled: true
