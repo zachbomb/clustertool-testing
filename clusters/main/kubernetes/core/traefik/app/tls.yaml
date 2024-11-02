@@ -8,16 +8,16 @@ spec:
   replicas: 1
   containers: 
     - name: traefik
-        args:
-            - "--providers.kubernetescrd"
-            - "--providers.file.filename=/config/dynamic.toml"
-        volumeMounts:
-            - name: certs
-              mountPath: "/certs"
-              readOnly: true
-            - name: dynamic
-              mountPath: "/config"
-              readOnly: true
+      args:
+        - "--providers.kubernetescrd"
+        - "--providers.file.filename=/config/dynamic.toml"
+      volumeMounts:
+        - name: certs
+        - mountPath: "/certs"
+          readOnly: true
+        - name: dynamic
+        - mountPath: "/config"
+          readOnly: true
 ---
 apiVersion: v1
 kind: ConfigMap
