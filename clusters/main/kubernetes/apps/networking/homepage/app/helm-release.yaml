@@ -74,7 +74,9 @@ spec:
                     custom.js: ""
                     kubernetes.yaml: |
                         mode: cluster
-                    services.yaml: "---\n# For configuration options and examples, please see:\n# https://gethomepage.dev/latest/configs/services\n\n- Arr:\n    - My First Service:\n        href: http://localhost/\n        description: Homepage is awesome\n\n- Media:\n    - My Second Service:\n        href: http://localhost/\n        description: Homepage is the best\n\n- Infra:\n    - My Third Service:\n        href: http://localhost/\n        description: Homepage is \U0001F60E\n"
+                    services.yaml: "---\n# For configuration options and examples, please see:\n# https://gethomepage.dev/latest/configs/services\n- Content Management:\n  - Prowlarr:\n      icon: prowlarr\n      href: https://prowlarr.sf.wethecommon.com\n      description: Usenet Indexer Manager\n      widget:\n        type: prowlarr\n        url: http://192.168.10.10:9696\n        key: 8572025561b846be937dfe1d05196cff\n\n  - Roon:\n      icon: https://www.frankprowsehifi.com.au/wp-content/uploads/2019/11/ROON.png\n      href: https://roonsettings.sf.wethecommon.com\n      description: Music Storage/Player\n\n- Networking:\n  - PiHole:\n      icon: https://chriskirby.net/content/images/2023/01/pihole-wide-header.png\n      href: http://192.168.10.3/admin\n      description: DNS and Ad Blocker\n      widget:\n        type: pihole\n        url: http://192.168.10.3\n        key: 3600d775970716c74a077dc040e704bea8189e555c9ed7c79005563588e95e63\n\n  - Unifi:\n      icon: unifi\n      href: https://192.168.10.1:443\n      description: Network Router/Switch/Client Management\n      widget:\n        type: unifi\n        url: https://192.168.10.1:443\n        username: homepage\n        password: CNuGGQLz6Pth\n\n  - Traefik:\n      icon: traefik\n      href: https://traefikdashboard.sf.wethecommon.com/dashboard\n      description: Network Reverse Proxy\n      widget:\n        type: traefik\n        url: https://192.168.10.123:443\n\n- Data & Virtualization:\n  - ProxMox:\n      icon: proxmox\n      href: https://proxmox.sf.wethecommon.com\n      description: Virtualization Management\n      widget:\n        type: proxmox\n        url: https://192.168.10.30:8006\n        username: api@pam!homepage\n        password: e7c4e37b-1e10-4876-95c8-f4425493bb8c\n        node: pibbthecat\n\n  - TrueNas:\n      icon: truenas\n      href: https://truenas.sf.wethecommon.com\n      description: NAS and Virtualized Services\n      widget:\n        type: truenas\n        url: https://192.168.10.122:444\n        username: root\n        password: Oboe1993\n        enablePools: true\n        nasType: scale\n\n- Home Automation:\n  - HomeAssistant:\n      icon: https://lab.uberspace.de/_images/homeassistant.png\n      href: https://homeassistant.sf.wethecommon.com\n      description: HomeAssistant VM Dashboard\n      widget:\n        type: homeassistant\n        url: http://192.168.10.69:8123\n        key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI0ZWM0NTJjMTUwNDA0ZjQ4OTdkNDkyNGU5ODM1NjFlNiIsImlhdCI6MTcxNjQwODg2MCwiZXhwIjoyMDMxNzY4ODYwfQ.OSyDJcjmJGfzYx-ElGh_LQo8707iaNzf7_EjaD3xAL0\n\n  - HomeBridge:\n      icon: homebridge\n      href: https://homebridge.sf.wethecommon.com\n      description: HomeBridge VM Dashboard\n      widget:\n        type: homebridge\n        url: http://192.168.10.92:8581\n        username: zach\n        password: jxv7dmq0vrh!tmx_FBD"
+
+
                     settings.yaml: |
                         ---
                         # For configuration options and examples, please see:
@@ -84,18 +86,31 @@ spec:
                           openweathermap: openweathermapapikey
                           weatherapi: weatherapiapikey
                     widgets.yaml: |
-                        ---
-                        # For configuration options and examples, please see:
-                        # https://gethomepage.dev/latest/configs/widgets
+                    ---
+                    # For configuration options and examples, please see:
+                    # https://gethomepage.dev/latest/configs/widgets
 
-                        - resources:
-                            cpu: true
-                            memory: true
-                            disk: /
+                    - unifi_console:
+                    url: https://192.168.10.1:443
+                    username: homepage
+                    password: CNuGGQLz6Pth
 
-                        - search:
-                            provider: duckduckgo
-                            target: _blank
+                    - resources:
+                      cpu: true
+                      memory: true
+                      disk: /
+
+                    - search:
+                       provider: duckduckgo
+                        target: _blank
+
+                    - datetime:
+                    text_size: xl
+                    # 1/23/22, 1:37 PM
+                       format:
+                      dateStyle: short
+                      timeStyle: short
+                      hour12: true
                 enabled: true
         forceConfigFromValues: false
         ingress:
