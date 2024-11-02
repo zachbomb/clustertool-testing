@@ -15,7 +15,6 @@ spec:
                 kind: HelmRepository
                 name: truecharts
                 namespace: flux-system
-            interval: 15m
     timeout: 20m
     maxHistory: 3
     install:
@@ -59,16 +58,10 @@ spec:
                 annotations:
                     traefik.frontend.passHostHeader: "false"
                 enabled: true
-                hosts:
-                    - host: radarr.${BASE_DOMAIN}
-                      paths:
-                        - path: /
-                          pathType: Prefix
-                tls:
-                    hosts:
-                        - radarr.${BASE_DOMAIN}
-                        secretName: radarr-tls 
                 integrations:
+                    certManager:
+                        enabled: true
+                        certificateIssuer: cert
                     traefik:
                         enabled: true
                         middlewares:
@@ -76,9 +69,6 @@ spec:
                               namespace: traefik
                             - name: bouncer
                               namespace: traefik
-                    certManager:
-                        enabled: true
-                        certificateIssuer: cert
                     homepage:
                         description: Movie Downloader/Manager
                         enabled: true
@@ -89,15 +79,24 @@ spec:
                             custom:
                                 key: a1cfd28c2bab49a1b9f6a1ac0c106e45
                             enabled: true
+                hosts:
+                    - host: radarr.${BASE_DOMAIN}
+                      paths:
+                        - path: /
+                          pathType: Prefix
+#                tls:
+#                    hosts: 
+#                        - radarr.${BASE_DOMAIN}
+#                    secretName: radarr-tls 
         service:
             main:
                 enabled: true
+                type: LoadBalancer
                 loadBalancerIP: ${RADARR_IP}
                 ports:
                     main:
                         port: 7878
-                type: LoadBalancer
-                updated: true
+
         persistence:
             config:
                 enabled: true
