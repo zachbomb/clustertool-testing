@@ -52,14 +52,6 @@ spec:
         workload:
             exportarr:
                enabled: false
-        service:
-            main:
-                enabled: true
-                type: LoadBalancer
-                loadBalancerIP: ${TRAEFIK_IP}
-                ports:
-                    main:
-                        port: 7878
 
         ingress:
             main:
@@ -94,10 +86,18 @@ spec:
                       paths:
                         - path: /
                           pathType: Prefix
-#                tls:
-#                    hosts: 
-#                        - radarr.${BASE_DOMAIN}
-#                    secretName: radarr-tls
+                tls:
+                    hosts: 
+                        - radarr.${BASE_DOMAIN}
+                    secretName: radarr-tls
+        service:
+            main:
+                enabled: true
+                type: LoadBalancer
+                loadBalancerIP: ${TRAEFIK_IP}
+                ports:
+                    main:
+                        port: 7878
 
         persistence:
             config:
