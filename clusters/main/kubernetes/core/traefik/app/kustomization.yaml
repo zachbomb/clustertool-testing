@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - clusterrole.yaml
-  - clusterrole-binding.yaml
+#  - clusterrole-binding.yaml
   - helm-release.yaml
 #  - tls.yaml
