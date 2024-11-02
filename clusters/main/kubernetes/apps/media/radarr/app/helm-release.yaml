@@ -52,6 +52,14 @@ spec:
         workload:
             exportarr:
                enabled: false
+        service:
+            main:
+                enabled: true
+                type: LoadBalancer
+                loadBalancerIP: ${RADARR_IP}
+                ports:
+                    main:
+                        port: 7878
 
         ingress:
             main:
@@ -69,6 +77,8 @@ spec:
                               namespace: traefik
                             - name: bouncer
                               namespace: traefik
+                        entrypoints:
+                            - websecure
                     homepage:
                         description: Movie Downloader/Manager
                         enabled: true
@@ -87,15 +97,7 @@ spec:
 #                tls:
 #                    hosts: 
 #                        - radarr.${BASE_DOMAIN}
-#                    secretName: radarr-tls 
-        service:
-            main:
-                enabled: true
-                type: LoadBalancer
-                loadBalancerIP: ${RADARR_IP}
-                ports:
-                    main:
-                        port: 7878
+#                    secretName: radarr-tls
 
         persistence:
             config:
