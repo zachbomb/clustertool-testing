@@ -19,8 +19,6 @@ spec:
     values:
         ingress:
             main:
-                annotations:
-                    traefik.frontend.passHostHeader: "false"
                 enabled: true
                 hosts:
                     - host: truenas.${BASE_DOMAIN}

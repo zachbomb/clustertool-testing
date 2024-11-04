@@ -69,7 +69,7 @@ spec:
         runAsUser: 568
       pod:
         fsGroupChangePolicy: OnRootMismatch
-    defaultCertificate: ""
+    defaultCertificate: cluster-cert
     service:
       main:
         enabled: true

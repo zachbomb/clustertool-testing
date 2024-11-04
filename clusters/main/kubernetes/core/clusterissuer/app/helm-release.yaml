@@ -42,9 +42,9 @@ spec:
       replicationNamespaces: '.*'
       # replicationNamespaces: 'ix-.*'
       certificates:
-        - name: wildcard
+        - name: cluster-cert
           enabled: true
           certificateIssuer: cert
           hosts:
-            - wethecommon.com
-            - '*.wethecommon.com'
+            - ${BASE_DOMAIN2}
+            - '*.${BASE_DOMAIN2}'

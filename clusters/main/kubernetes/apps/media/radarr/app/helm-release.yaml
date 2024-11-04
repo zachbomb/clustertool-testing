@@ -10,7 +10,7 @@ spec:
     chart:
         spec:
             chart: radarr
-            version: 23.10.1
+            version: 23.11.0
             sourceRef:
                 kind: HelmRepository
                 name: truecharts
@@ -55,8 +55,6 @@ spec:
 
         ingress:
             main:
-                annotations:
-                    traefik.frontend.passHostHeader: "false"
                 enabled: true
                 hosts:
                     - host: radarr.${BASE_DOMAIN}
@@ -88,7 +86,7 @@ spec:
                         name: Radarr
                         widget:
                             custom:
-                                key: a1cfd28c2bab49a1b9f6a1ac0c106e45
+                                key: c0a84c5da5804c47a146ea036e5b961d
                             enabled: true
         service:
             main:
@@ -109,17 +107,41 @@ spec:
                         mountPath: /config
                         readOnly: true
                     media:
+                        autoPermissions:
+                            enabled: false
                         enabled: true
-                        existingClaim: media-nfs-pvc
                         mountPath: "/media"
+                        path: /mnt/Pibbs-Horde/media/data/media
+                        readOnly: false
+                        server: 192.168.10.123
+                        type: nfs
                     movies:
+                        autoPermissions:
+                            enabled: false
                         enabled: true
-                        existingClaim: media-movies-nfs-pvc
                         mountPath: "/media/movies"
+                        path: /mnt/Pibbs-Horde/media/data/media/movies
+                        readOnly: false
+                        server: 192.168.10.123
+                        type: nfs
                     downloads:
+                        autoPermissions:
+                            enabled: false
                         enabled: true
-                        existingClaim: downloads-nfs-pvc
                         mountPath: "/usenet"
+                        path: /mnt/Pibbs-Horde/media/data/usenet
+                        readOnly: false
+                        server: 192.168.10.123
+                        type: nfs
+                    backup:
+                        autoPermissions:
+                            enabled: false
+                        enabled: true
+                        mountPath: "/backups"
+                        path: /mnt/Pibbs-Horde/media/data/app_backups/config/Backups
+                        readOnly: false
+                        server: 192.168.10.123
+                        type: nfs
 #                    backup:
 #                        enabled: true
 #                        mountPath: /config/Backups
